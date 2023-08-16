@@ -21,36 +21,53 @@
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
 
+namespace fiftyone\pipeline\devicedetection\tests;
 
-require(__DIR__ . "/../vendor/autoload.php");
-require(__DIR__ . "/../examples/onpremise/gettingStartedConsole.php");
-require(__DIR__ . "/../examples/onpremise/metadataConsole.php");
-require(__DIR__ . "/../examples/onpremise/matchMetrics.php");
-
-use PHPUnit\Framework\TestCase;
 use fiftyone\pipeline\core\Logger;
+use fiftyone\pipeline\devicedetection\examples\onpremise\classes\GettingStartedConsole;
+use fiftyone\pipeline\devicedetection\examples\onpremise\classes\MatchMetrics;
+use fiftyone\pipeline\devicedetection\examples\onpremise\classes\MetadataConsole;
+use PHPUnit\Framework\TestCase;
 
 class ExampleTests extends TestCase
 {
     public function testGettingStartedConsole()
     {
-        $logger = new Logger("info");
-        $output = array();
-        (new GettingStartedConsole())->run($logger, function($str) use (&$output) { $output[] = $str; });
+        $logger = new Logger('info');
+        $output = [];
+        (new GettingStartedConsole())->run(
+            $logger,
+            function ($str) use (&$output) {
+                $output[] = $str;
+            }
+        );
         $this->assertTrue(count($output) > 0);
     }
+
     public function testMetadataConsole()
     {
-        $logger = new Logger("info");
-        $output = array();
-        (new MetaDataConsole())->run($logger, function($str) use (&$output) { $output[] = $str; });
+        $logger = new Logger('info');
+        $output = [];
+        (new MetaDataConsole())->run(
+            $logger,
+            function ($str) use (&$output) {
+                $output[] = $str;
+            }
+        );
         $this->assertTrue(count($output) > 0);
     }
+
     public function testMatchMetrics()
     {
-        $logger = new Logger("info");
-        $output = array();
-        (new MatchMetrics())->run(true, $logger, function($str) use (&$output) { $output[] = $str; });
+        $logger = new Logger('info');
+        $output = [];
+        (new MatchMetrics())->run(
+            true,
+            $logger,
+            function ($str) use (&$output) {
+                $output[] = $str;
+            }
+        );
         $this->assertTrue(count($output) > 0);
     }
 }

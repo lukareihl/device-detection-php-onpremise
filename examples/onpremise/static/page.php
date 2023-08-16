@@ -20,10 +20,12 @@
  * in the end user terms of the application under an appropriate heading,
  * such notice(s) shall fulfill the requirements of that article.
  * ********************************************************************* */
+
+use fiftyone\pipeline\devicedetection\examples\onpremise\classes\ExampleUtils;
 ?>
 <head>
     <title>Web Integration Example</title>
-    <style><?php require(__DIR__."/main.css"); ?></style>
+    <style><?php require __DIR__ . '/main.css'; ?></style>
 </head>
 
 <div class="main">
@@ -64,7 +66,7 @@
             further down this page will not fire and UACH headers will not be sent.
         </div>
     </noscript>
-    <?php if (ExampleUtils::dataFileIsOld($flowdata->pipeline->getElement("device"))) { ?>
+    <?php if (ExampleUtils::dataFileIsOld($flowdata->pipeline->getElement('device'))) { ?>
         <div class="example-alert">
             WARNING: This example is using a data file that is more than 
             <?php echo ExampleUtils::DATA_FILE_AGE_WARNING; ?>
@@ -87,18 +89,17 @@
                     <th>Value</th>
                 </tr>
                 <?php
-                    foreach (headers_list() as $header)
-                    {
-                        $parts = explode(": ", $header);
+                    foreach (headers_list() as $header) {
+                        $parts = explode(': ', $header);
                         $output("<tr class='lightyellow'>");
-                        $output("<td><b>".$parts[0]."</b></td>");
-                        $output("<td>".$parts[1]."</td>");
+                        $output('<td><b>' . $parts[0] . '</b></td>');
+                        $output('<td>' . $parts[1] . '</td>');
                     }
                 ?>
             </table>
         </div>
 
-        <?php if (ExampleUtils::containsAcceptCh() == false) { ?>
+        <?php if (ExampleUtils::containsAcceptCh() === false) { ?>
             <div class="example-alert">
                 WARNING: There is no Accept-CH header in the response. This may indicate that your 
                 browser does not support User-Agent Client Hints. This is not necessarily a problem,
@@ -118,19 +119,15 @@
                     <th>Value</th>
                 </tr>
                 <?php
-                    foreach ($flowdata->evidence->getAll() as $key => $value)
-                    {
-                        if ($flowdata->pipeline->getElement("device")->getEvidenceKeyFilter()->filterEvidenceKey($key))
-                        {
+                    foreach ($flowdata->evidence->getAll() as $key => $value) {
+                        if ($flowdata->pipeline->getElement('device')->getEvidenceKeyFilter()->filterEvidenceKey($key)) {
                             $output("<tr class='lightgreen'>");
-                        }
-                        else
-                        {
+                        } else {
                             $output("<tr class='lightyellow'>");
                         }
-                        $output("<td><b>".$key."</b></td>");
-                        $output("<td>".$value."</td>");
-                        $output("</tr>");
+                        $output('<td><b>' . $key . '</b></td>');
+                        $output('<td>' . $value . '</td>');
+                        $output('</tr>');
                     }
                 ?>
             </table>
@@ -147,17 +144,17 @@
                 <th>Key</th>
                 <th>Value</th>
             </tr>
-            <tr class="lightyellow"><td><b>Hardware Vendor:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "hardwarevendor")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Hardware Name:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "hardwarename")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Device Type:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "devicetype")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Platform Vendor:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "platformvendor")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Platform Name:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "platformname")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Platform Version:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "platformversion")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Browser Vendor:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "browservendor")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Browser Name:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "browsername")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Browser Version:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "browserversion")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Screen width (pixels):</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "screenpixelswidth")); ?></td></tr>
-            <tr class="lightyellow"><td><b>Screen height (pixels):</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, "screenpixelsheight")); ?></td></tr>
+            <tr class="lightyellow"><td><b>Hardware Vendor:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'hardwarevendor')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Hardware Name:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'hardwarename')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Device Type:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'devicetype')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Platform Vendor:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'platformvendor')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Platform Name:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'platformname')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Platform Version:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'platformversion')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Browser Vendor:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'browservendor')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Browser Name:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'browsername')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Browser Version:</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'browserversion')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Screen width (pixels):</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'screenpixelswidth')); ?></td></tr>
+            <tr class="lightyellow"><td><b>Screen height (pixels):</b></td><td> <?php $output(ExampleUtils::getHumanReadable($flowdata->device, 'screenpixelsheight')); ?></td></tr>
         </table>
         <br />
 
@@ -188,7 +185,7 @@
             client-side values below will appear in the evidence values used and server-side results 
             after the refresh.
         </p>
-        <?php if (ExampleUtils::getDataFileTier($flowdata->pipeline->getElement("device")) == "Lite") { ?>
+        <?php if (ExampleUtils::getDataFileTier($flowdata->pipeline->getElement('device')) === 'Lite') { ?>
             <div class="example-alert">
                 WARNING: You are using the free 'Lite' data file. This does not include the client-side
                 evidence capabilities of the paid-for data file, so you will not see any additional
@@ -217,9 +214,9 @@
     Below, we subscribe to this complete event and display the values from the updated JSON.
 -->
 <script>
-    <?php
-        $output($flowdata->javascriptbuilder->javascript);
-    ?>
+<?php
+    $output($flowdata->javascriptbuilder->javascript);
+?>
 </script>
 
 <script>

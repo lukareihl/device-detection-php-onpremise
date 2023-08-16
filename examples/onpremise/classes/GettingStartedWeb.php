@@ -26,7 +26,7 @@
  *
  * @include{doc} example-getting-started-web.txt
  *
- * This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-php-onpremise/blob/master/examples/onpremise/gettingStartedWeb.php).
+ * This example is available in full on [GitHub](https://github.com/51Degrees/device-detection-php-onpremise/blob/master/examples/onpremise/gettingStartedWeb.php)
  *
  * @include{doc} example-require-resourcekey.txt
  *
@@ -75,27 +75,51 @@
  * ## Class
  */
 
-require __DIR__ . '/../../vendor/autoload.php';
+namespace fiftyone\pipeline\devicedetection\examples\onpremise\classes;
 
-use fiftyone\pipeline\core\Logger;
-use fiftyone\pipeline\devicedetection\examples\onpremise\classes\GettingStartedWeb;
+use fiftyone\pipeline\core\PipelineBuilder;
+use fiftyone\pipeline\core\Utils;
 
-function main($argv)
+class GettingStartedWeb
 {
-    // Configure a logger to output to the console.
-    $logger = new Logger('info');
+    public function run($configFile, $logger, $output)
+    {
+        $pipeline = (new PipelineBuilder())
+            ->addLogger($logger)
+            ->buildFromConfig($configFile);
 
-    $configFile = __DIR__ . '/gettingStartedWeb.json';
+        $this->processRequest($pipeline, $output);
+    }
 
-    (new GettingStartedWeb())->run(
-        $configFile,
-        $logger,
-        function ($message) {
-            echo $message;
+    private function processRequest($pipeline, $output)
+    {
+        // Create the flowdata object.
+        $flowdata = $pipeline->createFlowData();
+
+        // Add any information from the request (headers, cookies and additional
+        // client side provided information)
+        $flowdata->evidence->setFromWebRequest();
+
+        // Process the flowdata
+        $flowdata->process();
+
+        // Some browsers require that extra HTTP headers are explicitly
+        // requested. So set whatever headers are required by the browser in
+        // order to return the evidence needed by the pipeline.
+        // More info on this can be found at
+        // https://51degrees.com/blog/user-agent-client-hints
+        Utils::setResponseHeader($flowdata);
+
+        // First we make a JSON route that will be called from the client side
+        // and will return a JSON encoded property database using any additional
+        // evidence provided by the client.
+        if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/json') {
+            header('Content-Type: application/json');
+            $output(json_encode($flowdata->jsonbundler->json));
+
+            return;
         }
-    );
-}
 
-if (basename(__FILE__) == basename($_SERVER['SCRIPT_FILENAME'])) {
-    main(isset($argv) ? array_slice($argv, 1) : null);
+        include_once __DIR__ . '/../static/page.php';
+    }
 }

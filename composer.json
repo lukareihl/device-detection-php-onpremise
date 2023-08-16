@@ -22,17 +22,31 @@
 	],
     "license": "EUPL-1.2",    
     "type": "library",
-    "autoload": {
-        "classmap": [
-            "Constants.php",
-            "DeviceDetectionOnPremise.php",
-            "Messages.php",
-            "SwigData.php",
-            "SwigHelpers.php"
-        ]
-    },
     "require": {
+        "php": ">=7.4",
+        "ext-json": "*",
         "51degrees/fiftyone.pipeline.core": "4.*",
         "51degrees/fiftyone.pipeline.engines": "4.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.22"
+    },
+    "autoload": {
+        "psr-4": {
+            "fiftyone\\pipeline\\devicedetection\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "fiftyone\\pipeline\\devicedetection\\tests\\": "tests/",
+            "fiftyone\\pipeline\\devicedetection\\examples\\onpremise\\classes\\": "examples/onpremise/classes"
+        }
+    },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyze",
+        "php-cs-fixer": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --diff --verbose",
+        "php-cs-fixer-ci": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --diff --verbose --dry-run --format=junit"
     }
 }

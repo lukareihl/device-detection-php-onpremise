@@ -31,24 +31,24 @@ use PHPUnit\Framework\TestCase;
 /**
  * @requires OS Linux
  */
-class ExampleWebTests extends TestCase
+class ExampleWebTests_PHP5 extends TestCase
 {
     public static $process;
 
-    public static function setUpBeforeClass(): void
+    public static function setUpBeforeClass()
     {
         // start server
         self::$process = new Process('php -S localhost:3000 examples/onpremise/gettingStartedWeb.php');
         self::$process->start();
         if (self::$process->status()) {
-            sleep(1);
+            shell_exec('lsof -i tcp:3000 1>/dev/null 2>&1');
             echo "Getting Started Web example has started running.\n";
         } else {
             throw new \Exception("Could not start the Getting Started Web example. \n");
         }
     }
 
-    public static function tearDownAfterClass(): void
+    public static function tearDownAfterClass()
     {
         // stop server
         if (self::$process->stop()) {
